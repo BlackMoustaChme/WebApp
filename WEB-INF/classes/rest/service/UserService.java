@@ -8,6 +8,8 @@ import jakarta.json.bind.JsonbBuilder;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.core.Response;
+import jakarta.inject.Inject;
+import rest.model.IUser;
 import rest.model.User;
 import rest.util.UserDatabaseHandler;
 
@@ -18,6 +20,9 @@ import java.util.List;
 
 @Path("/user")
 public class UserService {
+
+    @Inject
+    IUser user;
     private Jsonb jsonb = JsonBuilder.create();
  
  @GET
@@ -35,7 +40,7 @@ public class UserService {
      user = jsonb.fromJson(userJson, User.class);
      String login = user.getLogin();
      String password = user.getPassword();
-     if (DataBaseHandler.authUser(login, password)){
+     if (user.authUser(login, password)){
          return Response.ok("Yes").build();
      }
      return Response.ok("No").build();
@@ -47,7 +52,7 @@ public class UserService {
         User user = jsonb.fromJson(userJson, User.class);
         String login = user.getLogin();
         String password = user.getPassword();
-        if (UserDatabaseHandler.registerUser(login, password, lastName, name, middleName)){
+        if (user.registerUser(login, password, lastName, name, middleName)){
             return Response.ok("Yes").build();
         }
         return Response.ok("No").build();

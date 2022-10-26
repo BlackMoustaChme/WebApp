@@ -11,13 +11,18 @@ import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.core.Response;
+import jakarta.inject.Inject;
 import rest.model.Car;
+import rest.model.ICar;
 import rest.model.User;
 import rest.util.CarDatabaseHandler;
 import rest.util.UserDatabaseHandler;
 
 @Path("/cars")
 public class CarListService {
+
+    @Inject
+    ICar car;
     private Jsonb jsonb = JsonbBuilder.create();
 
     @GET
@@ -26,9 +31,9 @@ public class CarListService {
         if (!checkSession(authInfo)) {
             return Response.ok("No access").build();
         }
-        ArrayList<Car> products = CarDatabaseHandler.getAllCars();
+        ArrayList<Car> products = car.getAllCars();
         String resultJson = jsonb.toJson(products);
-        return Respon se.ok(resultJson).build();
+        return Response.ok(resultJson).build();
     }
 
     @POST
@@ -39,7 +44,7 @@ public class CarListService {
         }
         User user = jsonb.fromJson(userJson, User.class);
         String ownerName = user.getLogin();
-        ArrayList<Car> cars = CarDatabaseHandler.getUsercar(ownerName);
+        ArrayList<Car> cars = car.getUsercar(ownerName);
         String resultJson = jsonb.toJson(cars);
         return Response.ok(resultJson).build();
     }
@@ -51,7 +56,7 @@ public class CarListService {
             return Response.ok("No access").build();
         }
         Car car = jsonb.fromJson(jsonSale, Car.class);
-        CarDatabaseHandler.addCar(car);
+        car.addCar(car);
         return Response.ok().build();
     }
 
@@ -64,16 +69,16 @@ public class CarListService {
         List<Car> carsID = jsonb.fromJson(jsonDeleteID, new ArrayList<Car>() {
         }.getClass().getGenericSuperclass());
         for (int i = 0; i < carsID.size(); i++) {
-            Car.deleteCar(carsID.get(i).getId());
+            car.deleteCar(carsID.get(i).getId());
         }
         return Response.ok().build();
     }
 
-    private boolean checkSession(String authInfo){
-        String[] user = authInfo.split(";");
-        if (!UserDatabaseHandler.authUser(user[0], user[1])) {
-            return false;
-        }
-        return true;
-    }
+//    private boolean checkSession(String authInfo){
+//        String[] user = authInfo.split(";");
+//        if (!UserDatabaseHandler.authUser(user[0], user[1])) {
+//            return false;
+//        }
+//        return true;
+//    }
 }
