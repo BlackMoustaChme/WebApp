@@ -2,7 +2,7 @@ package rest.service;
 
 
 import jakarta.ws.rs.Path;
-
+import jakarta.ws.rs.Produces;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.ws.rs.POST;
@@ -23,7 +23,7 @@ public class UserService {
 
     @Inject
     IUser userModel;
-    private Jsonb jsonb = JsonBuilder.create();
+    private Jsonb jsonb = JsonbBuilder.create();
  
  @GET
  @Path("/")
