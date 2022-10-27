@@ -52,16 +52,16 @@ function regRender() {
 
 function getRegInfo() {
     var login = document.getElementById("login").value
-    var lastname = document.getElementById("lastname").value
+    var lastname = document.getElementById("lastName").value
     var name = document.getElementById("name").value
-    var middlename = document.getElementById("middlename").value
+    var middlename = document.getElementById("middleName").value
     var password = document.getElementById("password").value
     var repeat_password = document.getElementById("password-repeat").value
     var jsonRegInfo = {
         "login": login,
-        "lastname": lastname,
+        "lastName": lastname,
         "name": name,
-        "middlename": middlename,
+        "middleName": middlename,
         "password": password,
         "repeat-password": repeat_password
     }

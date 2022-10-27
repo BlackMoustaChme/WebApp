@@ -11,7 +11,8 @@ import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
 import rest.model.IUser;
 import rest.model.User;
-import rest.util.UserDatabaseHandler;
+import rest.model.UserModel;
+//import rest.util.UserDatabaseHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class UserService {
     @Inject
     IUser userModel;
     private Jsonb jsonb = JsonbBuilder.create();
- 
+
  @GET
  @Path("/")
  @Produces("text/plain")
