@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
 import rest.model.Car;
 import rest.model.ICar;
+import rest.model.IUser;
 import rest.model.User;
 import rest.util.CarDatabaseHandler;
 import rest.util.UserDatabaseHandler;
@@ -22,7 +23,10 @@ import rest.util.UserDatabaseHandler;
 public class CarListService {
 
     @Inject
-    ICar car;
+    ICar carModel;
+
+    @Inject
+    IUser userModel;
     private Jsonb jsonb = JsonbBuilder.create();
 
     @GET
@@ -31,7 +35,7 @@ public class CarListService {
         if (!checkSession(authInfo)) {
             return Response.ok("No access").build();
         }
-        ArrayList<Car> products = car.getAllCars();
+        ArrayList<Car> products = carModel.getAllCars();
         String resultJson = jsonb.toJson(products);
         return Response.ok(resultJson).build();
     }
@@ -44,7 +48,7 @@ public class CarListService {
         }
         User user = jsonb.fromJson(userJson, User.class);
         String ownerName = user.getLogin();
-        ArrayList<Car> cars = car.getUsercar(ownerName);
+        ArrayList<Car> cars = carModel.getUserCar(ownerName);
         String resultJson = jsonb.toJson(cars);
         return Response.ok(resultJson).build();
     }
@@ -56,7 +60,7 @@ public class CarListService {
             return Response.ok("No access").build();
         }
         Car car = jsonb.fromJson(jsonSale, Car.class);
-        car.addCar(car);
+        carModel.addCar(car);
         return Response.ok().build();
     }
 
@@ -69,16 +73,16 @@ public class CarListService {
         List<Car> carsID = jsonb.fromJson(jsonDeleteID, new ArrayList<Car>() {
         }.getClass().getGenericSuperclass());
         for (int i = 0; i < carsID.size(); i++) {
-            car.deleteCar(carsID.get(i).getId());
+            carModel.deleteCar(carsID.get(i).getId());
         }
         return Response.ok().build();
     }
 
-//    private boolean checkSession(String authInfo){
-//        String[] user = authInfo.split(";");
-//        if (!UserDatabaseHandler.authUser(user[0], user[1])) {
-//            return false;
-//        }
-//        return true;
-//    }
+    private boolean checkSession(String authInfo){
+        String[] user = authInfo.split(";");
+        if (!userModel.authUser(user[0], user[1])) {
+            return false;
+        }
+        return true;
+    }
 }

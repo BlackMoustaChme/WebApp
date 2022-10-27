@@ -22,7 +22,7 @@ import java.util.List;
 public class UserService {
 
     @Inject
-    IUser user;
+    IUser userModel;
     private Jsonb jsonb = JsonBuilder.create();
  
  @GET
@@ -40,7 +40,7 @@ public class UserService {
      user = jsonb.fromJson(userJson, User.class);
      String login = user.getLogin();
      String password = user.getPassword();
-     if (user.authUser(login, password)){
+     if (userModel.authUser(login, password)){
          return Response.ok("Yes").build();
      }
      return Response.ok("No").build();
@@ -52,7 +52,10 @@ public class UserService {
         User user = jsonb.fromJson(userJson, User.class);
         String login = user.getLogin();
         String password = user.getPassword();
-        if (user.registerUser(login, password, lastName, name, middleName)){
+        String lastName = user.getLastName();
+        String name = user.getName();
+        String middleName = user.getMiddleName();
+        if (userModel.registerUser(login, password, lastName, name, middleName)){
             return Response.ok("Yes").build();
         }
         return Response.ok("No").build();
