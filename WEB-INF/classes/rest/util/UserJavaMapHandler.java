@@ -47,8 +47,8 @@ public class UserJavaMapHandler implements IRepository<User, Integer>{
     @Override
     public void add(User obj) {
         int id = 0;
-        User u = new User(obj.getId(), obj.getName(), obj.getLastName(), obj.getMiddleName(), obj.getPassword(), obj.getLogin());
-        userMap.put(id, u);
+
+        userMap.put(id, obj);
         id = id + 1;
     }
 
@@ -92,7 +92,13 @@ public class UserJavaMapHandler implements IRepository<User, Integer>{
     public boolean registerUser(String login, String password, String lastName, String name, String middleName){
         try{
         int id = 0;
-        User usr = new User(id, name, lastName, middleName, password, login);
+
+        User usr = new User();
+        usr.setLogin(login);
+        usr.setPassword(password);
+        usr.setLastName(lastName);
+        usr.setName(name);
+        usr.setMiddleName(middleName);
         UserJavaMapHandler user = new UserJavaMapHandler();
         user.add(usr);
         id = id + 1;

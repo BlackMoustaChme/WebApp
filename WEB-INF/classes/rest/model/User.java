@@ -2,23 +2,6 @@ package rest.model;
 
 public class User
 {
-    public User(int id, String name, String lastName, String middleName, String password, String login){
-        setId(id);
-        setName(name);
-        setLastName(lastName);
-        setMiddleName(middleName);
-        setPassword(password);
-        setLogin(login);
-    }
-
-    public User(String name, String lastName, String middleName, String password, String login){
-//        setId(id);
-        setName(name);
-        setLastName(lastName);
-        setMiddleName(middleName);
-        setPassword(password);
-        setLogin(login);
-    }
     private int id;
     private String name;
 
