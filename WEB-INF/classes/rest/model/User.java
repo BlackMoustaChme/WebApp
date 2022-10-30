@@ -2,7 +2,24 @@ package rest.model;
 
 public class User
 {
-    //private long id;
+    public User(int id, String name, String lastName, String middleName, String password, String login){
+        setId(id);
+        setName(name);
+        setLastName(lastName);
+        setMiddleName(middleName);
+        setPassword(password);
+        setLogin(login);
+    }
+
+    public User(String name, String lastName, String middleName, String password, String login){
+//        setId(id);
+        setName(name);
+        setLastName(lastName);
+        setMiddleName(middleName);
+        setPassword(password);
+        setLogin(login);
+    }
+    private int id;
     private String name;
 
     private String lastName;
@@ -14,13 +31,13 @@ public class User
 
     private String login;
 
-//    public long getId() {
-//        return id;
-//    }
+    public int getId() {
+        return id;
+    }
 
-//    public void setId(long id) {
-//        this.id = id;
-//    }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
