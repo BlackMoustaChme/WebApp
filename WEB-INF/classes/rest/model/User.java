@@ -2,7 +2,7 @@ package rest.model;
 
 public class User
 {
-    private int id;
+//    private int id;
     private String name;
 
     private String lastName;
@@ -14,13 +14,13 @@ public class User
 
     private String login;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public String getName() {
         return name;

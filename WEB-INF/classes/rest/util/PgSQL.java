@@ -7,6 +7,7 @@ import java.sql.SQLException;
 public class PgSQL implements IDatabase {
 
     private final String source;
+    private static Connection connection;
 
     public PgSQL(String source) {
         this.source = source;
@@ -14,7 +15,15 @@ public class PgSQL implements IDatabase {
 
     @Override
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("");
-        return DriverManager.getConnection(source);
+        Class.forName("org.postgresql.Driver");
+        connection = DriverManager.getConnection(source, "postgres", "SvolPG27");
+        return connection;
+    }
+
+    @Override
+    public void closeConnection() {
+        try {
+            connection.close();
+        } catch (Exception e) {}
     }
 }

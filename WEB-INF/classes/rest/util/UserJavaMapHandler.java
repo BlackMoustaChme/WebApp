@@ -23,15 +23,15 @@ public class UserJavaMapHandler implements IRepository<User, Integer>{
 //    }
 
     @Override
-    public User get(Integer index) {
+    public User get(Integer id) {
         User user = null;
 //        for(Map.Entry<Integer, User> entry:userMap.entrySet()){
 //            int key = entry.getKey();
 //            User u = entry.getValue();
 //
 //        }
-        if(userMap.containsKey(index)){
-            user = userMap.get(index);
+        if(userMap.containsKey(id)){
+            user = userMap.get(id);
             return user;
         }
         return user;
@@ -45,11 +45,8 @@ public class UserJavaMapHandler implements IRepository<User, Integer>{
     }
 
     @Override
-    public void add(User obj) {
-        int id = 0;
-
-        userMap.put(id, obj);
-        id = id + 1;
+    public void add(User user) {
+        userMap.put(user.getId(), user);
     }
 
     @Override
@@ -63,8 +60,9 @@ public class UserJavaMapHandler implements IRepository<User, Integer>{
     }
 
     public boolean authUser(String login, String password) {
-        for(int id = 0; id<= userMap.size(); id++ ){
-            if(get(id).getLogin() == login && get(id).getPassword() == password) {
+        for(var entry: userMap.entrySet()){
+            var user = entry.getValue();
+            if (user.getLogin() == login && user.getPassword() == password) {
                 return true;
             }
         }
@@ -91,7 +89,7 @@ public class UserJavaMapHandler implements IRepository<User, Integer>{
 
     public boolean registerUser(String login, String password, String lastName, String name, String middleName){
         try{
-        int id = 0;
+        int id = userMap.size() + 1;
 
         User usr = new User();
         usr.setLogin(login);
@@ -99,9 +97,7 @@ public class UserJavaMapHandler implements IRepository<User, Integer>{
         usr.setLastName(lastName);
         usr.setName(name);
         usr.setMiddleName(middleName);
-        UserJavaMapHandler user = new UserJavaMapHandler();
-        user.add(usr);
-        id = id + 1;
+        add(usr);
         } catch ( Exception e) {return false;}
         return true;
 //        idb = idbf.createInstance("source");

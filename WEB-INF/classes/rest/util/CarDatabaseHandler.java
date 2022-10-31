@@ -21,7 +21,7 @@ public class CarDatabaseHandler {
     IDatabase idb = null;
     IDatabaseFactory idbf = new DatabaseFactory();
     public ArrayList<Car> getAllCars(){
-        idb = idbf.createInstance("source");
+        idb = idbf.createInstance("jdbc:postgresql://localhost:5432/postgres");
         ArrayList<Car> cars = new ArrayList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -47,7 +47,7 @@ public class CarDatabaseHandler {
     }
 
     public ArrayList<Car> getUserCar(String user_name) {
-        idb = idbf.createInstance("source");
+        idb = idbf.createInstance("jdbc:postgresql://localhost:5432/postgres");
         ArrayList<Car> cars = new ArrayList<>();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -73,7 +73,7 @@ public class CarDatabaseHandler {
     }
 
     public void addCar(Car car){
-        idb = idbf.createInstance("source");
+        idb = idbf.createInstance("jdbc:postgresql://localhost:5432/postgres");
         PreparedStatement ps = null;
         String insert = "insert into  (ownerName, brand, model, color, number) values (?, ?, ?, ?, ?);";
         try {
@@ -90,7 +90,7 @@ public class CarDatabaseHandler {
     }
 
     public void deleteCar(Integer carID){
-        idb = idbf.createInstance("source");
+        idb = idbf.createInstance("jdbc:postgresql://localhost:5432/postgres");
         PreparedStatement ps = null;
         String insert = "delete from  where id=?;";
         try {

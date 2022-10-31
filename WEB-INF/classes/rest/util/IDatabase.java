@@ -6,6 +6,8 @@ import java.sql.Connection;
 public interface IDatabase {
 
     Connection getConnection() throws Exception;
+
+    void closeConnection() throws Exception;
 //    ResultSet executeQuery(String query) throws Exception;
 //    Object executeSQL(String sql) throws Exception;
 

@@ -25,12 +25,12 @@ public class UserDatabaseHandler {
     IDatabaseFactory idbf = new DatabaseFactory();
 
 
-    public boolean authUser(String login, String password) {
+    public boolean authUser(String login, String password) throws Exception {
         //Уточнить уникальную строку, элемент
-        idb = idbf.createInstance("source");
+        idb = idbf.createInstance("jdbc:postgresql://localhost:5432/postgres");
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String select = "select login, password from  where login=? and password=?;";
+        String select = "select login, password from \"user\" where login=? and password=?;";
         try {
             ps = idb.getConnection().prepareStatement(select);
             ps.setString(1, login);
@@ -38,16 +38,16 @@ public class UserDatabaseHandler {
             rs = ps.executeQuery();
             if (rs.next()) return true;
         } catch (Exception e) {
-            //closeConnection();
+            idb.closeConnection();
             return false;
         }
         return false;
     }
 
-    public boolean registerUser(String login, String password, String lastName, String name, String middleName){
-        idb = idbf.createInstance("source");
+    public boolean registerUser(String login, String password, String lastName, String name, String middleName) throws Exception {
+        idb = idbf.createInstance("jdbc:postgresql://localhost:5432/postgres");
         PreparedStatement ps = null;
-        String insert = "insert into autoparts.user (login, password, lastName, name, middleName) values(?, ?, ?, ?, ?);";
+        String insert = "insert into \"user\" (login, password, lastname, name, middlename) values(?, ?, ?, ?, ?);";
         try {
             ps = idb.getConnection().prepareStatement(insert);
             ps.setString(1, login);
@@ -57,10 +57,10 @@ public class UserDatabaseHandler {
             ps.setString(5, middleName);
             ps.executeUpdate();
         } catch (Exception e) {
-            //closeConnection();
+            idb.closeConnection();
             return false;
         }
-        //closeConnection();
+        idb.closeConnection();
         return true;
     }
 
