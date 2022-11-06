@@ -43,16 +43,14 @@ public class CarListService {
 
 
 
-
-//    @GET
-    @POST
-    @Path("/car")
-    public Response getUserCar(@HeaderParam(value="Authorization") String authInfo, String userJson) {
+    //    @POST
+    @GET
+    @Path("/")
+    public Response getUserCar(@HeaderParam(value="Authorization") String authInfo, @HeaderParam(value="Login") String userInfo) {
         if (!checkSession(authInfo)) {
             return Response.ok("No access").build();
         }
-        User user = jsonb.fromJson(userJson, User.class);
-        String ownerName = user.getLogin();
+        String ownerName = userInfo;
         ArrayList<Car> cars = carModel.getUserCars(ownerName);
         String resultJson = jsonb.toJson(cars);
         return Response.ok(resultJson).build();
@@ -70,17 +68,27 @@ public class CarListService {
     }
 
 //    @POST
+//    @DELETE
+//    @Path("/car")
+//    public Response delete(@HeaderParam(value="Authorization") String authInfo, String jsonDeleteID) {
+//        if (!checkSession(authInfo)) {
+//            return Response.ok("No access").build();
+//        }
+//        List<Car> carsID = jsonb.fromJson(jsonDeleteID, new ArrayList<Car>() {
+//        }.getClass().getGenericSuperclass());
+//        for (int i = 0; i < carsID.size(); i++) {
+//            carModel.deleteCar(carsID.get(i).getId());
+//        }
+//        return Response.ok().build();
+//    }
     @DELETE
     @Path("/")
-    public Response delete(@HeaderParam(value="Authorization") String authInfo, String jsonDeleteID) {
+    public Response deleteAll(@HeaderParam(value="Authorization") String authInfo, @HeaderParam(value="Login") String deleteInfo) {
         if (!checkSession(authInfo)) {
             return Response.ok("No access").build();
         }
-        List<Car> carsID = jsonb.fromJson(jsonDeleteID, new ArrayList<Car>() {
-        }.getClass().getGenericSuperclass());
-        for (int i = 0; i < carsID.size(); i++) {
-            carModel.deleteCar(carsID.get(i).getId());
-        }
+        String ownerName = deleteInfo;
+        carModel.deleteAll(ownerName);
         return Response.ok().build();
     }
 

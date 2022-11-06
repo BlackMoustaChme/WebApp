@@ -41,4 +41,13 @@ public class CarModel implements ICar{
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void deleteAll(String ownerName) {
+        try {
+            new CarDatabaseHandler().deleteAllCars(ownerName);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

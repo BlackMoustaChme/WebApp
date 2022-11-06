@@ -12,4 +12,6 @@ public interface ICar {
     public void addCar(Car car);
 
     public void deleteCar(Integer carID);
+
+    public void deleteAll(String ownerName);
 }

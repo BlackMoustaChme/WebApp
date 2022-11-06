@@ -108,6 +108,20 @@ public class CarDatabaseHandler {
             idb.closeConnection();
         }
     }
+
+    public void deleteAllCars(String ownerName) throws Exception {
+//        idb = idbf.createInstance("jdbc:postgresql://localhost:5432/postgres");
+        idb = idbf.createInstance();
+        PreparedStatement ps = null;
+        String insert = "delete from \"cars\" where owner_name=?";
+        try {
+            ps = idb.getConnection().prepareStatement(insert);
+            ps.setString(1, ownerName);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            idb.closeConnection();
+        }
+    }
     public int getUniqueId() throws Exception {
         Integer id = null;
         idb = idbf.createInstance();

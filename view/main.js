@@ -86,7 +86,7 @@ function renderUserCar() {
     var jsonLogin = {
         "login": localStorage.getItem("login")
     }
-    sendRequest("post", "api/cars/car/", jsonLogin, function () {
+    sendRequest("get", "api/cars/", jsonLogin, function () {
         if (this.readyState != 4 | this.status != 200) {
             return;
         }
@@ -114,24 +114,45 @@ function renderUserCar() {
 
 /* DELETE CAR */
 
+// function getDeleteInfo() {
+//     var rows = document.getElementsByTagName("tr");
+//     var cars_id = [];
+//     for (var i = 0; i < rows.length; i++) {
+//         if (rows[i].style.background != "") {
+//             var cells = rows[i].getElementsByTagName("td");
+//             var car = {
+//                 id: Number(cells[0].innerText)
+//             }
+//             cars_id.push(car);
+//         }
+//     }
+//     return cars_id;
+// }
+//
+// function sendDeleteInfo() {
+//     var jsonCarsID = getDeleteInfo();
+//     sendRequest("delete", "api/cars/", jsonCarsID, function () {
+//         if (this.readyState != 4 | this.status != 200) {
+//             return;
+//         }
+//         if (this.responseText == "No access") {
+//             authRender();
+//             return;
+//         }
+//         renderUserCar();
+//     }, true);
+// }
+
 function getDeleteInfo() {
-    var rows = document.getElementsByTagName("tr");
-    var cars_id = [];
-    for (var i = 0; i < rows.length; i++) {
-        if (rows[i].style.background != "") {
-            var cells = rows[i].getElementsByTagName("td");
-            var car = {
-                id: Number(cells[0].innerText)
-            }
-            cars_id.push(car);
-        }
+    var jsonLogin = {
+        "login": localStorage.getItem("login")
     }
-    return cars_id;
+    return jsonLogin;
 }
 
 function sendDeleteInfo() {
-    var jsonCarsID = getDeleteInfo();
-    sendRequest("delete", "api/cars/", jsonCarsID, function () {
+    var jsonLogin = getDeleteInfo();
+    sendRequest("delete", "api/cars/", jsonLogin, function () {
         if (this.readyState != 4 | this.status != 200) {
             return;
         }
