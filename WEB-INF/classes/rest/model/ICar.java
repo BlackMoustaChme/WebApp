@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public interface ICar {
     public ArrayList<Car> getAllCars();
 
-    public ArrayList<Car> getUserCar(String user_name);
+    public ArrayList<Car> getUserCars(String user_name);
 
     public void addCar(Car car);
 

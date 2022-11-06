@@ -17,8 +17,8 @@ import rest.model.Car;
 import rest.model.ICar;
 import rest.model.IUser;
 import rest.model.User;
-import rest.util.CarDatabaseHandler;
-import rest.util.UserDatabaseHandler;
+//import rest.util.CarDatabaseHandler;
+//import rest.util.UserDatabaseHandler;
 
 @Path("/cars")
 public class CarListService {
@@ -41,8 +41,11 @@ public class CarListService {
 //        return Response.ok(resultJson).build();
 //    }
 
-//    @POST
-    @GET
+
+
+
+//    @GET
+    @POST
     @Path("/car")
     public Response getUserCar(@HeaderParam(value="Authorization") String authInfo, String userJson) {
         if (!checkSession(authInfo)) {
@@ -50,7 +53,7 @@ public class CarListService {
         }
         User user = jsonb.fromJson(userJson, User.class);
         String ownerName = user.getLogin();
-        ArrayList<Car> cars = carModel.getUserCar(ownerName);
+        ArrayList<Car> cars = carModel.getUserCars(ownerName);
         String resultJson = jsonb.toJson(cars);
         return Response.ok(resultJson).build();
     }

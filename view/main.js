@@ -86,7 +86,7 @@ function renderUserCar() {
     var jsonLogin = {
         "login": localStorage.getItem("login")
     }
-    sendRequest("post", "api/cars/car", jsonLogin, function () {
+    sendRequest("post", "api/cars/car/", jsonLogin, function () {
         if (this.readyState != 4 | this.status != 200) {
             return;
         }
@@ -126,12 +126,12 @@ function getDeleteInfo() {
             cars_id.push(car);
         }
     }
-    return car_id;
+    return cars_id;
 }
 
 function sendDeleteInfo() {
     var jsonCarsID = getDeleteInfo();
-    sendRequest("post", "api/cars/", jsonCarsID, function () {
+    sendRequest("delete", "api/cars/", jsonCarsID, function () {
         if (this.readyState != 4 | this.status != 200) {
             return;
         }
@@ -172,7 +172,7 @@ function renderAddCar() {
     span.id = "add-status";
     button.textContent = "Добавить автомобиль";
     button.className = "btn-submit";
-    button.addEventListener("click", sendCarInfo);
+    button.addEventListener("click", sendAddCarInfo);
     btnPlace.appendChild(button);
     mainContent.appendChild(span);
 }
@@ -190,7 +190,7 @@ function getAddCarInfo() {
 }
 
 function sendAddCarInfo() {
-    var jsonCar = getCarInfo();
+    var jsonCar = getAddCarInfo();
     var error_span = document.getElementById("add-status");
     if (check_valid(jsonCar)) {
         var fields = Object.keys(jsonCar);

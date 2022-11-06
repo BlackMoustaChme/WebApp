@@ -16,7 +16,7 @@ public class CarModel implements ICar{
     }
 
     @Override
-    public ArrayList<Car> getUserCar(String ownerName) {
+    public ArrayList<Car> getUserCars(String ownerName) {
         try {
             return new CarDatabaseHandler().getUserCar(ownerName);
         } catch (Exception e) {
