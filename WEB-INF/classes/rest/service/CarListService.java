@@ -9,6 +9,7 @@ import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
@@ -29,18 +30,19 @@ public class CarListService {
     IUser userModel;
     private Jsonb jsonb = JsonbBuilder.create();
 
-    @GET
-    @Path("/")
-    public Response getCars(@HeaderParam(value="Authorization") String authInfo) {
-        if (!checkSession(authInfo)) {
-            return Response.ok("No access").build();
-        }
-        ArrayList<Car> products = carModel.getAllCars();
-        String resultJson = jsonb.toJson(products);
-        return Response.ok(resultJson).build();
-    }
+//    @GET
+//    @Path("/")
+//    public Response getCars(@HeaderParam(value="Authorization") String authInfo) {
+//        if (!checkSession(authInfo)) {
+//            return Response.ok("No access").build();
+//        }
+//        ArrayList<Car> cars = carModel.getAllCars();
+//        String resultJson = jsonb.toJson(cars);
+//        return Response.ok(resultJson).build();
+//    }
 
-    @POST
+//    @POST
+    @GET
     @Path("/car")
     public Response getUserCar(@HeaderParam(value="Authorization") String authInfo, String userJson) {
         if (!checkSession(authInfo)) {
@@ -64,7 +66,8 @@ public class CarListService {
         return Response.ok().build();
     }
 
-    @POST
+//    @POST
+    @DELETE
     @Path("/")
     public Response delete(@HeaderParam(value="Authorization") String authInfo, String jsonDeleteID) {
         if (!checkSession(authInfo)) {

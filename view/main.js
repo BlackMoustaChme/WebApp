@@ -21,7 +21,7 @@ function mainRender() {
         "</div>" +
         "</div>"
     renderMenu();
-    renderAllCars();
+    // renderAllCars();
     var userLogin = document.getElementsByClassName("user-login")[0];
     var btnLogout = document.getElementById("btn-logout");
     userLogin.textContent = localStorage.getItem("login");
@@ -40,7 +40,8 @@ function logout() {
 
 function renderMenu() {
     var menu = document.getElementById("menu");
-    var menu_items = ["Мои машины", "Добавить", "Удалить"];
+    // var menu_items = ["Мои машины", "Добавить", "Удалить"];
+    var menu_items = ["Мои машины", "Добавить"]
     var list = document.createElement("ul");
     var buttons = [];
     for (var i = 0; i < menu_items.length; i++) {
@@ -52,39 +53,40 @@ function renderMenu() {
         list.appendChild(row);
     }
     menu.appendChild(list);
-    buttons[0].addEventListener("click", renderAllCars);
+    // buttons[0].addEventListener("click", renderAllCars);
+    buttons[0].addEventListener("click", renderUserCar)
     buttons[1].addEventListener("click", renderAddCar);
-    buttons[2].addEventListener("click", renderUserCar);
+    // buttons[2].addEventListener("click", renderUserCar);
     // highlightMenu(buttons);
 }
 
 /* RENDER CARS */
 
-function renderAllCars() {
-    sendRequest("post", "api/car/", null, function () {
-        if (this.readyState != 4 | this.status != 200) {
-            return;
-        }
-        if (this.responseText == "No access") {
-            authRender();
-            return;
-        }
-        var cars = JSON.parse(this.responseText);
-        var mainContent = document.getElementById("main-content");
-        var btnPlace = document.getElementById("btn-place");
-        btnPlace.innerHTML = "";
-        mainContent.innerHTML = "";
-        var columns = ["id", "ownerName", "brand", "model", "color", "number"];
-        var table = create_table(cars, columns);
-        mainContent.appendChild(table);
-    }, true);
-}
+// function renderAllCars() {
+//     sendRequest("post", "api/cars/", null, function () {
+//         if (this.readyState != 4 | this.status != 200) {
+//             return;
+//         }
+//         if (this.responseText == "No access") {
+//             authRender();
+//             return;
+//         }
+//         var cars = JSON.parse(this.responseText);
+//         var mainContent = document.getElementById("main-content");
+//         var btnPlace = document.getElementById("btn-place");
+//         btnPlace.innerHTML = "";
+//         mainContent.innerHTML = "";
+//         var columns = ["id", "ownerName", "brand", "model", "color", "number"];
+//         var table = create_table(cars, columns);
+//         mainContent.appendChild(table);
+//     }, true);
+// }
 
 function renderUserCar() {
     var jsonLogin = {
         "login": localStorage.getItem("login")
     }
-    sendRequest("post", "api/car/userCar", jsonLogin, function () {
+    sendRequest("post", "api/cars/car", jsonLogin, function () {
         if (this.readyState != 4 | this.status != 200) {
             return;
         }
@@ -114,22 +116,22 @@ function renderUserCar() {
 
 function getDeleteInfo() {
     var rows = document.getElementsByTagName("tr");
-    var car_id = [];
+    var cars_id = [];
     for (var i = 0; i < rows.length; i++) {
         if (rows[i].style.background != "") {
             var cells = rows[i].getElementsByTagName("td");
-            var product = {
+            var car = {
                 id: Number(cells[0].innerText)
             }
-            products_id.push(product);
+            cars_id.push(car);
         }
     }
     return car_id;
 }
 
 function sendDeleteInfo() {
-    var jsonProductsID = getDeleteInfo();
-    sendRequest("post", "api/car/delete", jsonProductsID, function () {
+    var jsonCarsID = getDeleteInfo();
+    sendRequest("post", "api/cars/", jsonCarsID, function () {
         if (this.readyState != 4 | this.status != 200) {
             return;
         }
@@ -137,7 +139,7 @@ function sendDeleteInfo() {
             authRender();
             return;
         }
-        renderUserProducts();
+        renderUserCar();
     }, true);
 }
 
@@ -148,8 +150,8 @@ function renderAddCar() {
     var btnPlace = document.getElementById("btn-place");
     mainContent.innerHTML = "";
     btnPlace.innerHTML = "";
-    var fields = ["ownerName", "brand", "model", "color", "number"];
-    var fields_ru = ["Владелец", "Марка", "Модель", "Цвет", "Номер"];
+    var fields = ["brand", "model", "color", "number"];
+    var fields_ru = ["Марка", "Модель", "Цвет", "Номер"];
     for (var i = 0; i < fields.length; i++) {
         var container = document.createElement("div");
         var input = document.createElement("input");
@@ -175,29 +177,29 @@ function renderAddCar() {
     mainContent.appendChild(span);
 }
 
-function getCarInfo() {
-    var jsonSale = {};
-    var fields = ["ownerName", "brand", "model", "color", "number"];
+function getAddCarInfo() {
+    var jsonCar = {};
+    var fields = ["brand", "model", "color", "number"];
     for (var i = 0; i < fields.length; i++) {
         var value = document.getElementById(fields[i]).value;
-        jsonSale[fields[i]] = value;
+        jsonCar[fields[i]] = value;
     }
-    jsonSale["ownerName"] = localStorage.getItem("login");
-    jsonSale["cost"] = Number(jsonSale["cost"]);
-    return jsonSale;
+    jsonCar["ownerName"] = localStorage.getItem("login");
+    // jsonCar["cost"] = Number(jsonCar["cost"]);
+    return jsonCar;
 }
 
-function sendCarInfo() {
-    var jsonSale = getCarInfo();
+function sendAddCarInfo() {
+    var jsonCar = getCarInfo();
     var error_span = document.getElementById("add-status");
-    if (check_valid(jsonSale)) {
-        var fields = Object.keys(jsonSale);
+    if (check_valid(jsonCar)) {
+        var fields = Object.keys(jsonCar);
         fields.splice(fields.length - 1, 1);
         for (var i = 0; i < fields.length; i++) {
             document.getElementById(fields[i]).value = "";
         }
         error_span.textContent = "";
-        sendRequest("post", "api/car/add", jsonSale, function () {
+        sendRequest("post", "api/cars/", jsonCar, function () {
             if (this.readyState != 4 | this.status != 200) {
                 return;
             }

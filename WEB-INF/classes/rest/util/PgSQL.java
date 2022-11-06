@@ -6,17 +6,24 @@ import java.sql.SQLException;
 
 public class PgSQL implements IDatabase {
 
-    private final String source;
+//    private final String source;
+    private static String source = "jdbc:postgresql://192.168.1.69:5432/postgres";
+
+    private static String username = "postgres";
+
+    private static String password = "SvolPG27";
     private static Connection connection;
 
-    public PgSQL(String source) {
-        this.source = source;
-    }
+//    public PgSQL(String source) {
+//        this.source = source;
+//    }
 
     @Override
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("org.postgresql.Driver");
-        connection = DriverManager.getConnection(source, "postgres", "SvolPG27");
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {return null;}
+        connection = DriverManager.getConnection(source, username, password);
         return connection;
     }
 

@@ -48,6 +48,11 @@ function sendAuthInfo() {
                 return;
             }
             var response = this.responseText;
+            // if (response[0] == "Yes") {
+            //         localStorage.setItem("login", jsonAuthInfo.login);
+            //         localStorage.setItem("token", response[1]);
+            //         mainRender();
+            // }
             if (response == "Yes") {
                 localStorage.setItem("login", jsonAuthInfo.login);
                 localStorage.setItem("password", jsonAuthInfo.password);
@@ -64,6 +69,7 @@ function sendAuthInfo() {
 var userStore = {
     "login": localStorage.getItem("login"),
     "password": localStorage.getItem("password")
+    // "token": localStorage.getItem("token")
 }
 
 sendRequest("post", "api/user/authorization", userStore, function(){

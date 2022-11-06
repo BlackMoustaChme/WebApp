@@ -41,7 +41,12 @@ public class UserService {
      user = jsonb.fromJson(userJson, User.class);
      String login = user.getLogin();
      String password = user.getPassword();
+//     String[] result = new String[2];
+//     result[0] = "Yes";
+//     result[1] = Token.generateToken(login);
+//     String resultJSON = jsonb.toJson(result);
      if (userModel.authUser(login, password)){
+//         return Response.ok(resultJSON).build();
          return Response.ok("Yes").build();
      }
      return Response.ok("No").build();
