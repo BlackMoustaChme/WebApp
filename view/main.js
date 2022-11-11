@@ -1,4 +1,4 @@
-var root = document.body;
+// var root = document.body;
 
 function mainRender() {
     root.innerHTML = "<span class='overPage'></span>" +
@@ -33,7 +33,7 @@ function logout() {
     localStorage.removeItem("login");
     localStorage.removeItem("password");
     // animationCover(animationBlock, 0.5, 0);
-    setTimeout(authRender, 800);
+    setTimeout(pageAuth.initLogin, 800);
 }
 
 /* RENDER MENU */

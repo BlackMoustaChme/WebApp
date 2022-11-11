@@ -47,7 +47,7 @@ public class UserService {
 //     String resultJSON = jsonb.toJson(result);
      if (userModel.authUser(login, password)){
 //         return Response.ok(resultJSON).build();
-         return Response.ok("Yes").build();
+         return Response.ok("Yes").build();//На будущее. Лучше переработать под пользование response.status примеры код влада
      }
      return Response.ok("No").build();
  }

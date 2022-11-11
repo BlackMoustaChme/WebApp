@@ -7,7 +7,9 @@ import java.sql.SQLException;
 public class PgSQL implements IDatabase {
 
 //    private final String source;
-    private static String source = "jdbc:postgresql://192.168.1.69:5432/postgres";
+    private static String source1 = "jdbc:postgresql://192.168.1.69:5432/postgres";
+
+    private static String source2 = "jdbc:postgresql://172.20.10.3:5432/postgres";
 
     private static String username = "postgres";
 
@@ -23,7 +25,7 @@ public class PgSQL implements IDatabase {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {return null;}
-        connection = DriverManager.getConnection(source, username, password);
+        connection = DriverManager.getConnection(source2, username, password);
         return connection;
     }
 
