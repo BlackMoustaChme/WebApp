@@ -1,5 +1,9 @@
-var pageAuth = (function () {
-    var innerHTMLAuth = "<div class='log-page'>" +
+// var pageAuth = (function () {
+
+let root = undefined;
+let router = undefined;
+function _renderAuth() {
+    root.innerHTMLAuth = "<div class='log-page'>" +
         "<div class='log-content'>" +
         "<div class='log'>" +
         "<span>Авторизация</span>" +
@@ -19,9 +23,9 @@ var pageAuth = (function () {
         "<span>Еще нет аккаунта? <button class='btn-path' id='reg'>Зарегистрироваться</button></span>" +
         "</div>" +
         "</div>";
-
-    function initLogin () {
-        root.innerHTML = innerHTMLAuth;
+// }
+    // function initLogin () {
+    //     root.innerHTML = innerHTMLAuth;
 
         var btnReg = document.getElementById("reg");
         var btnSendAuthInfo = document.getElementById("btnAuthInfo");
@@ -37,7 +41,7 @@ var pageAuth = (function () {
         localStorage.clear();
     }
 
-    function setLoginData() {
+    function _setLoginData() {
         var loginField = document.getElementById("login");
         var login = loginField.value;
         var password = document.getElementById("password").value
@@ -47,7 +51,7 @@ var pageAuth = (function () {
         localStorage.setItem("password", password);
     }
 
-    return {
-        initLogin: initLogin
-    }
-})();
+//     return {
+//         initLogin: initLogin
+//     }
+// })();

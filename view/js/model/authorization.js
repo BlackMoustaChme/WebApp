@@ -1,6 +1,7 @@
 var modelAuth = (function () {
 
         function proceedAuth() {//для разгрузки localstorage можно в proceedAuth передавать JSON с данными логина
+            var dataStatus = '';
             var loginData = getLoginData();
             // var error_span = document.getElementById("log-status");
             if (check_valid(loginData)) {
@@ -9,28 +10,27 @@ var modelAuth = (function () {
                         return;
                     }
                     var response = this.responseText;
-                    // if (response[0] == "Yes") {
-                    //         localStorage.setItem("login", loginData.login);
-                    //         localStorage.setItem("token", response[1]);
-                    //         mainRender();/
-                    // }
                     if (response == "Yes") {
                         localStorage.setItem("login", loginData.login);
                         localStorage.setItem("password", loginData.password);
                         mainRender();
-                        return "Авторизация прошла успешно"
-                    } else {
+                        // return "Авторизация прошла успешно"
+                    } else {//сделать вывод ошибок через передачу сервером кодов ошибок
                         // error_span.textContent = "Неправильный логин или пароль";//вывести как return
-                        return "Неправильный логин или пароль";
+                        // return "Неправильный логин или пароль";
+                        // dataStatus.add(`Неправильный логин или пароль`);
+                        // dataStatus = "Неправильный логин или пароль";
                     }
                 }, false);
             } else {
-                return "Не все поля были заполнены";
+                // return "Не все поля были заполнены";
                 // error_span.textContent = "Не все поля были заполнены";
+                // dataStatus.add('Не все поля были заполнены')
+                // dataStatus = "Не все поля были заполнены";
             }
-            // myXmlRequest("post", "api/user/authorization", loginData, function (response) {
-            //     setTokenFromServ(response);
-            // });
+            // if (dataStatus != '') {
+                return dataStatus;
+            // }
         }
 
         function getLoginData() {

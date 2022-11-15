@@ -1,6 +1,7 @@
 var modelRegistration = (function () {
 
     function proceedRegistration(RegData) {
+
         // var RegData = getRegInfo();
         // var error_span = document.getElementById("log-status");
         if (check_valid(RegData)) {
@@ -15,14 +16,14 @@ var modelRegistration = (function () {
                 var response = this.responseText;
                 if (response == "Yes") {
                     pageAuth.initLogin();
-                    return "Регистрация прошла успешно";
+                    // return "Регистрация прошла успешно";
                 } else {
                     // error_span.textContent = "Нельзя испольовать данный логин";
-                    return "Нельзя испольовать данный логин";
+                    // return "Нельзя испольовать данный логин";
                 }
             }, false);
         } else {
-            return "Не все поля были заполнены";
+            // return "Не все поля были заполнены";
             // error_span.textContent = "Не все поля были заполнены";
         }
     }
