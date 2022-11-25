@@ -1,9 +1,13 @@
-// var pageAuth = (function () {
+import {User} from "../../model/transport/user.js";
+import {proceedAuth} from "../../model/authorization.js";
+import {Router} from "../router.js";
+import {check_valid} from "../../util/globalUtil.js";
 
 let root = undefined;
 let router = undefined;
+let error_span = undefined;
 function _renderAuth() {
-    root.innerHTMLAuth = "<div class='log-page'>" +
+    root.innerHTML = "<div class='log-page'>" +
         "<div class='log-content'>" +
         "<div class='log'>" +
         "<span>Авторизация</span>" +
@@ -23,32 +27,67 @@ function _renderAuth() {
         "<span>Еще нет аккаунта? <button class='btn-path' id='reg'>Зарегистрироваться</button></span>" +
         "</div>" +
         "</div>";
-// }
-    // function initLogin () {
-    //     root.innerHTML = innerHTMLAuth;
 
-        var btnReg = document.getElementById("reg");
-        var btnSendAuthInfo = document.getElementById("btnAuthInfo");
-        btnReg.addEventListener("click", pageReg.initRegistration);
-        var statusReport = document.getElementById("log-status");
-        btnSendAuthInfo.addEventListener("click", function () {
-
-            setLoginData();//if check_valid -> proceedAuth
-
-            statusReport = modelAuth.proceedAuth();
+        let btnReg = document.getElementById("reg");
+        let btnSendAuthInfo = document.getElementById("btnAuthInfo");
+        // let error_span = document.getElementById("log-status");
+        btnReg.addEventListener("click", () => {
+            router.pageReg(root)
         });
-
-        localStorage.clear();
+        btnSendAuthInfo.addEventListener("click", () => {
+            let authInfo = _setLoginData();
+            console.log(authInfo);
+            proceedAuth(authInfo).then((responseData) => {
+                _reactAuthInfo(responseData);
+            });
+        });
     }
 
     function _setLoginData() {
-        var loginField = document.getElementById("login");
-        var login = loginField.value;
-        var password = document.getElementById("password").value
 
-        localStorage.setItem("login", login);
-        // localStorage.setItem("token", "");
-        localStorage.setItem("password", password);
+        let login = document.getElementById("login").value;
+        let password = document.getElementById("password").value;
+        let error_span = document.getElementById("log-status");
+
+        let jsonAuthInfo = {
+            "login": login,
+            "password": password
+        }
+        if(!check_valid(jsonAuthInfo)) {
+            error_span.textContent = "Не все поля были заполнены";
+            return;
+        }
+        else {
+            // let user = new User(jsonAuthInfo["login"], null, null, null, jsonAuthInfo["password"]);
+            let user = new User(login, null, null, null, password);
+            return user;
+        }
+
+    }
+
+    function _reactAuthInfo(responseData) {
+        console.log(responseData)
+        let status = responseData["status"];
+        console.log(status);
+        let data = responseData["data"];
+        console.log(data);
+        let error_span = document.getElementById("log-status");
+
+        if (status == 400) {
+            error_span.textContent = "Неправильный логин или пароль";
+        } else if (status == 200) {
+            console.log(data["token"]);
+            // localStorage.setItem("token", data["token"]);
+            localStorage.setItem("token", data)
+            localStorage.setItem("login", _setLoginData().getLogin());
+            router.pageMain(root);
+        }
+    }
+
+    export default function init(_root) {
+        root = _root;
+        router = new Router();
+        _renderAuth();
     }
 
 //     return {

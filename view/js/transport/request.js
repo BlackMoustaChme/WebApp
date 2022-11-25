@@ -15,7 +15,8 @@
 //
 //     xhr.onreadystatechange = callback_func;
 // }
-import {Response} from "./response";
+import {Response} from "./response.js";
+import {User} from "../model/transport/user.js";
 async function _sendRequest(type, uri, options, data) {//options для передачи header'ов
     let request;
     let headers = {
@@ -23,7 +24,7 @@ async function _sendRequest(type, uri, options, data) {//options для пере
         "Authorization": localStorage.getItem("token")
     }
 
-    if (options != undefined || options != null) {
+    if (options != undefined || options != null) {//проверка options обращать внимание на передаваемое null или не null
         let keys = Object.keys(options);
         for (let i = 0; i < keys.length; i++) {
             headers[keys[i]] = options[keys[i]];
@@ -31,11 +32,15 @@ async function _sendRequest(type, uri, options, data) {//options для пере
     }
 
     if (data == null || data == undefined) {
+        console.log(headers);
         request = fetch(uri, {method: type, headers: headers});
     } else if (type == "delete" || type == "get") {
         headers["Data"] = JSON.stringify(data);//для данных в header'ах
         request = fetch(uri, {method: type, headers: headers});
     } else {
+        // console.log(headers);
+        // console.log(data);
+        // console.log(JSON.stringify(data));
         request = fetch(uri, {method: type, headers: headers, body: JSON.stringify(data)});
     }
 
@@ -48,34 +53,47 @@ async function _sendRequest(type, uri, options, data) {//options для пере
         json = null;
     }
 
-
+    // console.log(response.status);
+    // console.log(json);
     return new Response(response.status, json); //Response это ДТО объект
 
 }
 
 export async function async_getUserCars() {
-    return await _sendRequest("GET", "api/cars/", {"Login": localStorage.getItem("login")});
+    return await _sendRequest("get", "api/cars/", {"Login": localStorage.getItem("login")});
 }
 
 //надо передавать ДТО юзера
-export async function async_auth() {
+export async function async_auth(User) {
     let data;
     try {
-        data = //ДТО Юзера .get()
+        data = User;//ДТО Юзера .get()
+        if (data == null) {
+            console.log("data is null")
+        }
+        else {
+            console.log(data);
+        }
     } catch (error) {
         data = null;
+    }
+    if (data == null) {
+        console.log("data is null")
+    }
+    else {
+        console.log(data);
     }
     return await _sendRequest("post", "api/user/authorization", null, data);
 }
 
 //надо передавать ДТО юзера
-export async function async_registration() {
-    return await _sendRequest("post", "api/user/authorization", null, .get());
+export async function async_registration(User) {
+    return await _sendRequest("post", "api/user/registration", null, User);
 }
 
 //надо передавать ДТО машины
-export async function async_addCar() {
-    return await _sendRequest("post", "api/cars/", {"Login": localStorage.getItem("login")}, .get());
+export async function async_addCar(Car) {
+    return await _sendRequest("post", "api/cars/", {"Login": localStorage.getItem("login")}, Car);
 }
 
 export async function async_deleteAllCars() {

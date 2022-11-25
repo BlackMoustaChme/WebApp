@@ -1,3 +1,4 @@
+import {pageAuth, pageReg, pageMain} from './page/pages.js'
 
 export class Router {
     constructor() {

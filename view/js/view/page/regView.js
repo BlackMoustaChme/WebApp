@@ -1,5 +1,14 @@
-var pageReg = (function () {
-    var innerHTMLReg = "<div class='log-page'>" +
+import {User} from "../../model/transport/user.js";
+import {Router} from "../router.js";
+import {proceedRegistration} from "../../model/registration.js";
+import {check_valid} from "../../util/globalUtil.js";
+
+let root = undefined;
+let router = undefined;
+let error_span = undefined;
+
+function _renderReg() {
+    root.innerHTML = "<div class='log-page'>" +
         "<div class='log-content'>" +
         "<div class='log'>" +
         "<span>Регистрация</span>" +
@@ -39,57 +48,67 @@ var pageReg = (function () {
         "<span>Уже есть аккаунт? <button class='btn-path' id='auth'>Авторизоваться</button></span>" +
         "</div>" +
         "</div>";
-
-    function initRegistration () {
-        root.innerHTML = innerHTMLReg;
-
-        var btnAuth = document.getElementById("auth");
-        var btnReg = document.getElementById("btnRegInfo");
-        var statusReport = document.getElementById("log-status");
-        btnAuth.addEventListener("click", pageAuth.initLogin);
-        btnReg.addEventListener("click", function () {
-
-
-            var jsonRegInfo = setRegistrationData();
-            statusReport = modelRegistration.proceedRegistration(jsonRegInfo);
-
+    // let fadeBlock = document.getElementsByClassName("log-content")[0];
+    let btnAuth = document.getElementById("auth");
+    let btnReg = document.getElementById("btnRegInfo");
+    // let error_span = document.getElementById("log-status");
+    btnAuth.addEventListener("click", () => {
+        router.pageAuth(root)
+    });
+    btnReg.addEventListener("click", () => {
+        let regInfo = _setRegistrationData();
+        proceedRegistration(regInfo).then((response) => {
+            _reactRegInfo(response);
         });
 
-        // localStorage.clear();
-    }
 
-    function setRegistrationData() {
-        // var login = document.getElementById("login").value
-        // var lastname = document.getElementById("lastName").value
-        // var name = document.getElementById("name").value
-        // var middlename = document.getElementById("middleName").value
-        // var password = document.getElementById("password").value
-        // var repeat_password = document.getElementById("password-repeat").value
-        //
-        // localStorage.setItem("login", login);
-        // localStorage.setItem("lastName", lastname);
-        // localStorage.setItem("name", name);
-        // localStorage.setItem("middleName", middlename);
-        // localStorage.setItem("password", password);
-        // localStorage.setItem("password-repeat", repeat_password);
-        var login = document.getElementById("login").value
-        var lastname = document.getElementById("lastName").value
-        var name = document.getElementById("name").value
-        var middlename = document.getElementById("middleName").value
-        var password = document.getElementById("password").value
-        var repeat_password = document.getElementById("password-repeat").value
-        var jsonRegInfo = {
-            "login": login,
-            "lastName": lastname,
-            "name": name,
-            "middleName": middlename,
-            "password": password,
-            "repeat-password": repeat_password
+    });
+    // animationFade(fadeBlock, 1, 0);
+}
+
+function _setRegistrationData() {
+    let error_span = document.getElementById("log-status");
+    let login = document.getElementById("login").value
+    let lastname = document.getElementById("lastName").value
+    let name = document.getElementById("name").value
+    let middlename = document.getElementById("middleName").value
+    let password = document.getElementById("password").value
+    let repeat_password = document.getElementById("password-repeat").value
+    let jsonRegInfo = {
+        "login": login,
+        "lastName": lastname,
+        "name": name,
+        "middleName": middlename,
+        "password": password,
+        "repeat-password": repeat_password
+    }
+    if (check_valid(jsonRegInfo)) {
+        if ((jsonRegInfo["password"] != jsonRegInfo["repeat-password"])) {
+            error_span.textContent = "Пароли не совпадают";
         }
-        return jsonRegInfo;
+        // let user = new User(jsonRegInfo["login"], jsonRegInfo["lastName"], jsonRegInfo["name"], jsonRegInfo["middleName"], jsonRegInfo["password"]);
+        let user = new User(login, lastname, name, middlename, password);
+        return user;
+    } else {
+        error_span.textContent = "Не все поля были заполнены";
+        return;
     }
+}
 
-    return {
-        initRegistration: initRegistration
+function _reactRegInfo(response) {
+    let status = response["status"];
+    let error_span = document.getElementById("log-status");
+    if (status == 400) {
+        error_span.textContent = "Нельзя испольовать данный логин";
+    } else if (status == 200) {
+        // localStorage.setItem("token", data["token"]);
+        // localStorage.setItem("login", _setRegistrationData().getLogin());
+        router.pageAuth(root);
     }
-})();
+}
+
+export default function init(_root) {
+    root = _root;
+    router = new Router();
+    _renderReg();
+}

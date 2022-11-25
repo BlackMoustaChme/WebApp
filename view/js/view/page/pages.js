@@ -1,5 +1,5 @@
-import
-import
-import
+import pageAuth from './authView.js'
+import pageReg from './regView.js'
+import pageMain from './mainView.js'
 
-export {}
+export {pageAuth, pageReg, pageMain}

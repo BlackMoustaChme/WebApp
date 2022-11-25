@@ -10,7 +10,7 @@ export class Response {
     };
 
     constructor(status, body) {
-        this.status = this.statusSet(status);
+        this.status = this.statusSet[status];
         this.body = body;
     }
 
@@ -19,7 +19,7 @@ export class Response {
     }
 
     setStatus(status) {
-        this.status = this.statusSet(status);
+        this.status = this.statusSet[status];
     }
 
     getBody() {

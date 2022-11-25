@@ -4,6 +4,7 @@ import jakarta.ws.rs.Path;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -11,6 +12,8 @@ import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
 import rest.model.Car;
@@ -46,25 +49,32 @@ public class CarListService {
     //    @POST
     @GET
     @Path("/")
-    public Response getUserCar(@HeaderParam(value="Authorization") String authInfo, @HeaderParam(value="Login") String userInfo) {
-        if (!checkSession(authInfo)) {
-            return Response.ok("No access").build();
+    public Response getUserCar(@Context HttpHeaders httpHeaders) {
+        String login = httpHeaders.getHeaderString("Login");
+        String token = httpHeaders.getHeaderString("Authorization");
+//        if (!checkSession(authInfo)``) {
+//            return Response.ok("No access").build();
+//        }
+        if (Token.checkToken(login, token)) {
+            String ownerName = login;
+            ArrayList<Car> cars = carModel.getUserCars(ownerName);
+            String resultJson = jsonb.toJson(cars);
+            return Response.ok(resultJson).build();
         }
-        String ownerName = userInfo;
-        ArrayList<Car> cars = carModel.getUserCars(ownerName);
-        String resultJson = jsonb.toJson(cars);
-        return Response.ok(resultJson).build();
+        return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
     @POST
     @Path("/")
-    public Response add(@HeaderParam(value="Authorization") String authInfo, String jsonSale) {
-        if (!checkSession(authInfo)) {
-            return Response.ok("No access").build();
+    public Response add(@Context HttpHeaders httpHeaders, String jsonSale) {
+        String login = httpHeaders.getHeaderString("Login");
+        String token = httpHeaders.getHeaderString("Authorization");
+        if (Token.checkToken(login, token)) {
+            Car car = jsonb.fromJson(jsonSale, Car.class);
+            carModel.addCar(car);
+            return Response.ok().build();
         }
-        Car car = jsonb.fromJson(jsonSale, Car.class);
-        carModel.addCar(car);
-        return Response.ok().build();
+        return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
 //    @POST
@@ -83,13 +93,15 @@ public class CarListService {
 //    }
     @DELETE
     @Path("/")
-    public Response deleteAll(@HeaderParam(value="Authorization") String authInfo, @HeaderParam(value="Login") String deleteInfo) {
-        if (!checkSession(authInfo)) {
-            return Response.ok("No access").build();
+    public Response deleteAll(@Context HttpHeaders httpHeaders) {
+        String login = httpHeaders.getHeaderString("Login");
+        String token = httpHeaders.getHeaderString("Authorization");
+        if (Token.checkToken(login, token)) {
+            String ownerName = login;
+            carModel.deleteAll(ownerName);
+            return Response.ok().build();
         }
-        String ownerName = deleteInfo;
-        carModel.deleteAll(ownerName);
-        return Response.ok().build();
+        return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
     private boolean checkSession(String authInfo){
