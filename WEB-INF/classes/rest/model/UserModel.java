@@ -1,40 +1,58 @@
 package rest.model;
 
+import rest.model.api.dto.User;
+import rest.model.api.in.IUser;
+import rest.model.api.out.IRepository;
+import rest.model.api.out.IUserRepository;
 import rest.util.UserDatabaseHandler;
-//import rest.model.IUser;
+//import rest.model.api.in.IUser;
 //import rest.util.UserJavaMapHandler;
 //import jakarta.inject.Inject;
 //import jakarta.enterprise.context.ApplicationScoped;
 //@ApplicationScoped
-public class UserModel implements IUser{
-//    private UserJavaMapHandler handler = new UserJavaMapHandler();
+public class UserModel implements IUser {
+
+    private IUserRepository userRepository;
+    @Override
+    public void injectRepository(IUserRepository userRepository) {
+
+        this.userRepository = userRepository;
+    }
+
+
     @Override
     public boolean authUser(String login, String password) {
-//        boolean jm = false;
-//        jm = handler.authUser(login, password);
-//        return jm;
-        boolean db = false;
         try {
-            db = new UserDatabaseHandler().authUser(login, password);
+            return userRepository.authUser(login, password);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return false;
         }
-        return db;//2
+//        database realization
+//        boolean db = false;
+//        try {
+//            db = new UserDatabaseHandler().authUser(login, password);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        return db;//2
 //        return false;
     }
 
     @Override
     public boolean registerUser(String login, String password, String lastName, String name, String middleName) {
-//        boolean jm = false;
-//        jm = handler.registerUser(login, password, lastName, name, middleName);
-//        return jm;
-        boolean db = false;
         try {
-            db = new UserDatabaseHandler().registerUser(login, password, lastName, name, middleName);
+            return userRepository.registerUser(login, password, lastName, name, middleName);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return false;
         }
-        return db;
+//        database realization
+//        boolean db = false;
+//        try {
+//            db = new UserDatabaseHandler().registerUser(login, password, lastName, name, middleName);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        return db;
 //        return true;
     }
 //    @Override

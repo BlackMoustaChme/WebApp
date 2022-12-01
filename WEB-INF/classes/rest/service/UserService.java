@@ -11,14 +11,9 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.inject.Inject;
-import rest.model.IUser;
-import rest.model.User;
-import rest.model.UserModel;
+import rest.model.api.in.IUser;
+import rest.model.api.dto.User;
 //import rest.util.UserDatabaseHandler;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 
 @Path("/user")

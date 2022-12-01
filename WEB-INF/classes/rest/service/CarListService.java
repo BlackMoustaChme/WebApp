@@ -3,8 +3,6 @@ package rest.service;
 import jakarta.ws.rs.Path;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -16,10 +14,9 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
-import rest.model.Car;
-import rest.model.ICar;
-import rest.model.IUser;
-import rest.model.User;
+import rest.model.api.dto.Car;
+import rest.model.api.in.ICar;
+import rest.model.api.in.IUser;
 //import rest.util.CarDatabaseHandler;
 //import rest.util.UserDatabaseHandler;
 

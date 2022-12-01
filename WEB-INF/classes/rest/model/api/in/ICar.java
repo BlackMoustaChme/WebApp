@@ -1,10 +1,13 @@
-package rest.model;
+package rest.model.api.in;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import rest.model.api.dto.Car;
+import rest.model.api.out.ICarRepository;
+
+
 import java.util.ArrayList;
 
 public interface ICar {
+    void injectRepository(ICarRepository carRepository);
     public ArrayList<Car> getAllCars();
 
     public ArrayList<Car> getUserCars(String user_name);

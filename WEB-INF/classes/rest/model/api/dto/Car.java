@@ -1,4 +1,4 @@
-package rest.model;
+package rest.model.api.dto;
 
 public class Car {
     private int id;

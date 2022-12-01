@@ -1,8 +1,9 @@
-package rest.util;
+package rest.model.api.out;
 
 import java.util.ArrayList;
 
 public interface IRepository<T, I> {
+
 
     T get(I index);
 
@@ -15,3 +16,4 @@ public interface IRepository<T, I> {
     void remove(I index);
 
 }
+
