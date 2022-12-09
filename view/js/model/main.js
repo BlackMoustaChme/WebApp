@@ -41,7 +41,7 @@ function _getCarInfo(carInfo) {
     // console.log(carInfo);
     // console.log(carInfo.getOwnerName(), carInfo.getBrand())
     let jsonCafInfo = {
-        "ownerName": carInfo.getOwnerName(),
+        "user": carInfo.getUser(),
         "brand": carInfo.getBrand(),
         "model": carInfo.getModel(),
         "color": carInfo.getColor(),

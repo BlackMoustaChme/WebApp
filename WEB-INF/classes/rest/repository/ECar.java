@@ -24,11 +24,11 @@ public class ECar implements Serializable{
 
     @ManyToOne
     @JoinColumn(name = "\"user_id\"")
-    private EUser user_id;
+    private EUser user;
 
-    @ManyToOne
-    @JoinColumn(name = "\"owner_name\"")
-    private EUser ownerName;
+//    @ManyToOne
+//    @JoinColumn(name = "\"owner_name\"")
+//    private EUser ownerName;
 
     @Column(name = "\"brand\"")
     private String brand;
@@ -54,23 +54,23 @@ public class ECar implements Serializable{
 
     public EUser getCarUserId() {
 
-        return user_id;
+        return user;
     }
 
-    public void setCarUserId(EUser user_id){
+    public void setCarUserId(EUser user){
 
-        this.user_id = user_id;
+        this.user = user;
     }
 
-    public EUser getCarOwnerName(){
-
-        return ownerName;
-    }
-
-    public void setCarOwnerName(EUser ownerName){
-
-        this.ownerName = ownerName;
-    }
+//    public EUser getCarOwnerName(){
+//
+//        return ownerName;
+//    }
+//
+//    public void setCarOwnerName(EUser ownerName){
+//
+//        this.ownerName = ownerName;
+//    }
     public String getCarBrand(){
 
         return brand;

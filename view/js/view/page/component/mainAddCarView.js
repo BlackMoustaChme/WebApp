@@ -74,9 +74,9 @@ function _setAddCarInfo() {
     } else {
         error_span.textContent = "Не все поля были заполнены";
     }
-    jsonCar["ownerName"] = localStorage.getItem("login");
+    jsonCar["user"] = localStorage.getItem("login");
     console.log(jsonCar);
-    let car = new Car(null, jsonCar["ownerName"], jsonCar["brand"], jsonCar["model"], jsonCar["color"], jsonCar["number"]);
+    let car = new Car(null, jsonCar["user"], jsonCar["brand"], jsonCar["model"], jsonCar["color"], jsonCar["number"]);
     return car;
     // jsonCar["cost"] = Number(jsonCar["cost"]);
     // return jsonCar;

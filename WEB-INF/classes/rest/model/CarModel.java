@@ -30,12 +30,12 @@ public class CarModel implements ICar {
     }
 
     @Override
-    public ArrayList<Car> getUserCars(String ownerName) {
+    public ArrayList<Car> getUserCars(String user) {
         try {
-            return carRepository.getUserCar(ownerName);
+            return carRepository.getUserCar(user);
         } catch (Exception e) {
+            Logger.getLogger(CarModel.class.getName()).log(Level.INFO, null, e);
             throw new RuntimeException(e);
-//            Logger.getLogger(CarModel.class.getName()).log(Level.INFO, null, e);
         }
 //        return ;
 //        database
@@ -73,9 +73,9 @@ public class CarModel implements ICar {
     }
 
     @Override
-    public void deleteAll(String ownerName) {
+    public void deleteAll(String user) {
         try {
-            carRepository.deleteAllCars(ownerName);
+            carRepository.deleteAllCars(user);
         } catch (Exception e) {
             Logger.getLogger(CarModel.class.getName()).log(Level.INFO, null, e);
         }

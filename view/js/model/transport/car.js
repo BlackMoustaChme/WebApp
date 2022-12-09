@@ -1,14 +1,14 @@
 export class Car {
     id;
-    ownerName;
+    user;
     brand;
     model;
     color;
     number;
 
-    constructor(id, ownerName, brand, model, color, number) {
+    constructor(id, user, brand, model, color, number) {
         this.id = id;
-        this.ownerName = ownerName;
+        this.user = user;
         this.brand = brand;
         this.model = model;
         this.color = color;
@@ -19,8 +19,8 @@ export class Car {
         this.id = id;
     }
 
-    setOwnerName(ownerName) {
-        this.ownerName = ownerName;
+    setUser(user) {
+        this.user = user;
     }
 
     setBrand(brand) {
@@ -43,8 +43,8 @@ export class Car {
         return this.id;
     }
 
-    getOwnerName() {
-        return this.ownerName;
+    getUser() {
+        return this.user;
     }
 
     getBrand() {

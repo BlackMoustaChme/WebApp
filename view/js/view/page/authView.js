@@ -2,7 +2,9 @@ import {User} from "../../model/transport/user.js";
 import {proceedAuth} from "../../model/authorization.js";
 import {Router} from "../router.js";
 import {check_valid} from "../../util/globalUtil.js";
-
+// сделать полное разделение вью и модели
+// Убрать реакцию в модель и оставить рендер, сбор и передачу данных
+// Можно сделать классы для вьюшек с методом render
 let root = undefined;
 let router = undefined;
 let error_span = undefined;

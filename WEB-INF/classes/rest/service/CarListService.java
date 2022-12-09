@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
+import rest.builder.Built;
 import rest.model.api.dto.Car;
 import rest.model.api.in.ICar;
 import rest.model.api.in.IUser;
@@ -24,9 +25,11 @@ import rest.model.api.in.IUser;
 public class CarListService {
 
     @Inject
+    @Built
     ICar carModel;
 
     @Inject
+    @Built
     IUser userModel;
     private Jsonb jsonb = JsonbBuilder.create();
 
@@ -53,8 +56,8 @@ public class CarListService {
 //            return Response.ok("No access").build();
 //        }
         if (Token.checkToken(login, token)) {
-            String ownerName = login;
-            ArrayList<Car> cars = carModel.getUserCars(ownerName);
+//            String ownerName = login;
+            ArrayList<Car> cars = carModel.getUserCars(login);
             String resultJson = jsonb.toJson(cars);
             return Response.ok(resultJson).build();
         }
@@ -94,8 +97,7 @@ public class CarListService {
         String login = httpHeaders.getHeaderString("Login");
         String token = httpHeaders.getHeaderString("Authorization");
         if (Token.checkToken(login, token)) {
-            String ownerName = login;
-            carModel.deleteAll(ownerName);
+            carModel.deleteAll(login);
             return Response.ok().build();
         }
         return Response.status(Response.Status.UNAUTHORIZED).build();

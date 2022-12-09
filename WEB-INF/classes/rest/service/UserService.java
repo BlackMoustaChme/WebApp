@@ -11,6 +11,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.inject.Inject;
+import rest.builder.Built;
 import rest.model.api.in.IUser;
 import rest.model.api.dto.User;
 //import rest.util.UserDatabaseHandler;
@@ -20,6 +21,7 @@ import rest.model.api.dto.User;
 public class UserService {
 
     @Inject
+    @Built
     IUser userModel;
     private Jsonb jsonb = JsonbBuilder.create();
 

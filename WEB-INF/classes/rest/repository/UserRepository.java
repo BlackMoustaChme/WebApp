@@ -49,7 +49,8 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public boolean authUser(String login, String password) throws Exception {
-        String query = "select u from EUser u where u.login:=login and u.password:=password";
+//        "SELECT c FROM Customer c WHERE c.name LIKE :custName")
+        String query = "SELECT u FROM EUser u WHERE u.login LIKE :login and u.password LIKE :password";
         Integer size = 0;
         try {
             entityManager = entityManagerFactory.createEntityManager();
@@ -62,8 +63,9 @@ public class UserRepository implements IUserRepository {
         } catch (Exception e) {
             Logger.getLogger(UserRepository.class.getName()).log(Level.INFO, null, e);
         }
-        return (size == 1);
-
+        return size == 1;
+//        if (size == 1) return true;
+//        else return false;
 //        return false;
     }
 }

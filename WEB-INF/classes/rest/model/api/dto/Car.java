@@ -3,7 +3,7 @@ package rest.model.api.dto;
 public class Car {
     private int id;
 
-    private String ownerName;
+    private String user;
     private String brand;
     private String model;
     private String color;
@@ -13,9 +13,9 @@ public class Car {
     public Car(){
     }
 
-    public Car(Integer id, String ownerName, String brand, String model, String color, String number){
+    public Car(Integer id, String user, String brand, String model, String color, String number){
         this.id = id;
-        this.ownerName = ownerName;
+        this.user = user;
         this.brand = brand;
         this.model = model;
         this.color = color;
@@ -30,12 +30,12 @@ public class Car {
         this.id = id;
     }
 
-    public String getOwnerName(){
-        return ownerName;
+    public String getUser(){
+        return user;
     }
 
-    public void setOwnerName(String ownerName){
-        this.ownerName = ownerName;
+    public void setUser(String user){
+        this.user = user;
     }
     public String getBrand(){
         return brand;

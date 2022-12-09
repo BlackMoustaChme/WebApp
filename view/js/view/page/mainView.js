@@ -2,7 +2,11 @@ import {Router} from "../router.js";
 import initCar from "./component/mainUserCarView.js";
 import initAddCar from "./component/mainAddCarView.js";
 // import {renderAddCar} from "./component/mainAddCarView.js";
-
+// сделать полное разделение вью и модели
+// Убрать реакцию в модель и оставить рендер, сбор и передачу данных
+// Можно сделать классы для вьюшек с методом render
+// в main всё тоже самое и сделать его компоненты простыми рендерами
+// Можно попробовать их реализовать просто через экспортные рендеры
 let root = undefined;
 let componentRoot = undefined;
 let router = undefined;

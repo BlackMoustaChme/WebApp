@@ -27,18 +27,19 @@ public class CarsRepository implements ICarRepository {
 
 
     @Override
-    public ArrayList<Car> getUserCar(String ownerName) throws Exception {
+    public ArrayList<Car> getUserCar(String user) throws Exception {
         ArrayList<Car> cars = new ArrayList<>();
         try {
-            String query = "select c from ECar c where c.owner_name:=owner_name";
+            String query = "SELECT c FROM ECar c WHERE c.user =:user";
             entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             entityManager.joinTransaction();
-            List<ECar> eCars = entityManager.createQuery(query,ECar.class).setParameter("owner_name", ownerName).getResultList();
+            List<EUser> eUserList = entityManager.createQuery("SELECT u FROM EUser u WHERE u.login LIKE :login", EUser.class).setParameter("login", user).getResultList();
+            List<ECar> eCars = entityManager.createQuery(query,ECar.class).setParameter("user", eUserList.get(0)).getResultList();
             for (ECar eCar: eCars) {
                 Car car = new Car();
                 car.setId(eCar.getCarId());
-                car.setOwnerName(eCar.getCarOwnerName());
+//                car.setOwnerName(eCar.getCarOwnerName());
                 car.setBrand(eCar.getCarBrand());
                 car.setModel(eCar.getCarModel());
                 car.setColor(eCar.getCarColor());
@@ -58,10 +59,10 @@ public class CarsRepository implements ICarRepository {
             entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             entityManager.joinTransaction();
-            List<EUser> eUserList = entityManager.createQuery("select u from EUser u where u.login:=login", EUser.class).setParameter("login", car.getOwnerName()).getResultList();
+            List<EUser> eUserList = entityManager.createQuery("SELECT u FROM EUser u WHERE u.login LIKE :login", EUser.class).setParameter("login", car.getUser()).getResultList();
             ECar eCar = new ECar();
             eCar.setCarUserId(eUserList.get(0));
-            eCar.setCarOwnerName(car.getOwnerName());
+//            eCar.setCarOwnerName(car.getOwnerName());
             eCar.setCarBrand(car.getBrand());
             eCar.setCarModel(car.getModel());
             eCar.setCarColor(car.getColor());
@@ -75,13 +76,14 @@ public class CarsRepository implements ICarRepository {
     }
 
     @Override
-    public void deleteAllCars(String ownerName) throws Exception {
+    public void deleteAllCars(String user) throws Exception {
         try {
+            entityManager = entityManagerFactory.createEntityManager();
             userTransaction.begin();
             entityManager.joinTransaction();
-
-            entityManager.createQuery("DELETE FROM ECar c WHERE c.owner_name:=owner_name")
-                    .setParameter("owner_name", ownerName)
+            List<EUser> eUserList = entityManager.createQuery("SELECT u FROM EUser u WHERE u.login LIKE :login", EUser.class).setParameter("login", user).getResultList();
+            entityManager.createQuery("DELETE FROM ECar c WHERE c.user =:user")
+                    .setParameter("user", eUserList.get(0))
                     .executeUpdate();
 
             userTransaction.commit();

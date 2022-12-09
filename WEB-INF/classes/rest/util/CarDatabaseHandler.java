@@ -80,8 +80,8 @@ public class CarDatabaseHandler {
         String insert = "insert into \"cars\" (user_id, owner_name, brand, model, color, number) values (?, ?, ?, ?, ?, ?)";
         try {
             ps = idb.getConnection().prepareStatement(insert);
-            ps.setInt(1, getUserId(car.getOwnerName()));
-            ps.setString(2, car.getOwnerName());
+            ps.setInt(1, getUserId(car.getUser()));
+            ps.setString(2, car.getUser());
             ps.setString(3, car.getBrand());
             ps.setString(4, car.getModel());
             ps.setString(5, car.getColor());

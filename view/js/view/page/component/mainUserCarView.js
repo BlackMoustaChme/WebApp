@@ -64,7 +64,7 @@ function _renderUserCar() {
     let btnPlace = document.createElement("div");
     btnPlace.id = "btn-place";
     // console.log(cars)
-    let columns = ["id", "ownerName", "brand", "model", "color", "number"];
+    let columns = ["id", "brand", "model", "color", "number"];
     let table = create_table(cars, columns);
     let button = document.createElement("button");
     button.textContent = "Удалить";

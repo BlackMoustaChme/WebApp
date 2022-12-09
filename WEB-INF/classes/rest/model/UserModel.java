@@ -4,7 +4,12 @@ import rest.model.api.dto.User;
 import rest.model.api.in.IUser;
 import rest.model.api.out.IRepository;
 import rest.model.api.out.IUserRepository;
+import rest.repository.CarsRepository;
 import rest.util.UserDatabaseHandler;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 //import rest.model.api.in.IUser;
 //import rest.util.UserJavaMapHandler;
 //import jakarta.inject.Inject;
@@ -25,6 +30,7 @@ public class UserModel implements IUser {
         try {
             return userRepository.authUser(login, password);
         } catch (Exception e) {
+            Logger.getLogger(UserModel.class.getName()).log(Level.INFO, null, e);
             return false;
         }
 //        database realization
@@ -43,6 +49,7 @@ public class UserModel implements IUser {
         try {
             return userRepository.registerUser(login, password, lastName, name, middleName);
         } catch (Exception e) {
+            Logger.getLogger(UserModel.class.getName()).log(Level.INFO, null, e);
             return false;
         }
 //        database realization
