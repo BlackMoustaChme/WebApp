@@ -3,7 +3,6 @@ package rest.model;
 import rest.model.api.dto.Car;
 import rest.model.api.in.ICar;
 import rest.model.api.out.ICarRepository;
-import rest.repository.CarsRepository;
 import rest.util.CarDatabaseHandler;
 
 

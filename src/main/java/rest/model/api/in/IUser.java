@@ -2,9 +2,6 @@ package rest.model.api.in;
 
 import rest.model.api.out.IUserRepository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 public interface IUser {
     void injectRepository(IUserRepository userRepository);
     public boolean authUser(String login, String password);

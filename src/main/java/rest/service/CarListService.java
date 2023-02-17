@@ -1,5 +1,6 @@
 package rest.service;
 
+import rest.builder.Built;
 import jakarta.ws.rs.Path;
 
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 import jakarta.inject.Inject;
-import rest.builder.Built;
 import rest.model.api.dto.Car;
 import rest.model.api.in.ICar;
 import rest.model.api.in.IUser;

@@ -1,11 +1,7 @@
 package rest.model;
 
-import rest.model.api.dto.User;
 import rest.model.api.in.IUser;
-import rest.model.api.out.IRepository;
 import rest.model.api.out.IUserRepository;
-import rest.repository.CarsRepository;
-import rest.util.UserDatabaseHandler;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

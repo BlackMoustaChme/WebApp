@@ -8,8 +8,6 @@ import jakarta.transaction.UserTransaction;
 import rest.model.api.dto.Car;
 import rest.model.api.out.ICarRepository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
