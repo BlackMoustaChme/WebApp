@@ -1,22 +1,5 @@
-// function sendRequest(type, uri, data, callback_func, useToken){
-//     var xhr = new XMLHttpRequest();
-//     xhr.open(type, uri, true);//сюда пихается тип запроса, нужен if или функция для фильтрации GET, DELETE запросов
-//     xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
-//     if (useToken == true) {
-//         xhr.setRequestHeader("Authorization", localStorage.getItem("login") + ";" + localStorage.getItem("password"));
-//     }
-//     if (type == "get" || type == "delete") {
-//         xhr.setRequestHeader("Login", localStorage.getItem("login"));
-//         xhr.send();
-//     }
-//     else {
-//         xhr.send(JSON.stringify(data));//вытекает из предыдущего комментария, GET и DELETE не имеют body
-//     }
-//
-//     xhr.onreadystatechange = callback_func;
-// }
 import {Response} from "./response.js";
-import {User} from "../model/transport/user.js";
+
 async function _sendRequest(type, uri, options, data) {//options для передачи header'ов
     let request;
     let headers = {
@@ -68,21 +51,21 @@ export async function async_auth(User) {
     let data;
     try {
         data = User;//ДТО Юзера .get()
-        if (data == null) {
-            console.log("data is null")
-        }
-        else {
-            console.log(data);
-        }
+        // if (data == null) {
+        //     console.log("data is null")
+        // }
+        // else {
+        //     console.log(data);
+        // }
     } catch (error) {
         data = null;
     }
-    if (data == null) {
-        console.log("data is null")
-    }
-    else {
-        console.log(data);
-    }
+    // if (data == null) {
+    //     console.log("data is null")
+    // }
+    // else {
+    //     console.log(data);
+    // }
     return await _sendRequest("post", "api/user/authorization", null, data);
 }
 
@@ -102,4 +85,14 @@ export async function async_deleteAllCars() {
 
 export async function async_deleteCar(cars_id) {
     return await _sendRequest("delete", "api/cars/car/", null, cars_id)
+}
+
+export async function async_sendAuthData(loginData) {
+    let protocol = "http";
+    let host = "localhost";
+    let port = "8080";
+    let name = "wbV13653575461518671061";
+    let domain = `${protocol}://${host}:${port}/${name}`;
+
+    return await _sendRequest("post", `${domain}/api/user/authorization`, null, loginData);
 }
