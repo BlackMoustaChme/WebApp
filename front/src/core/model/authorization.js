@@ -1,4 +1,4 @@
-import {async_auth, async_sendAuthData} from "../transport/request.js";
+import {async_auth, async_sendAuthData} from "../api/request.js";
 
 export async function proceedAuth(authInfo) {
     // console.log({"Login":authInfo.getLogin(), "Password":authInfo.getPassword()});

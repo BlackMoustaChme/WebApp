@@ -16,6 +16,7 @@ import rest.model.api.dto.User;
 import rest.model.api.in.IUser;
 //import rest.util.UserDatabaseHandler;
 
+//Надо переписать с httpHeaders на ContainerRequestContext там где это необходимо
 
 @Path("/user")
 public class UserService {
@@ -59,7 +60,7 @@ public class UserService {
      return Response.status(Response.Status.BAD_REQUEST).build();
 //     return Response.ok(resultJSON).build();
  }
-
+//
     @POST
     @Path("/registration")
     public Response registration(@Context HttpHeaders httpHeaders, String userJson) {

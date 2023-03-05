@@ -6,13 +6,13 @@ import '../../component/my-button/component.js'
 import '../../component/error-span/component.js'
 
 import {UserFactory} from '../../../domain/user.js'
-import {RouterFactory} from "../../route/router.js";
+import {RouterFactory} from "../../../../../view/js/gui/route/router.js";
 
-class RegistrationFieldsWithButton extends HTMLElement {
+class RegistrationFieldsWithButton extends React.Component {
 
-    constructor() {
+    constructor(props) {
         console.log('constructor registration-fields_with_button...');
-        super();
+        super(props);
         this.attachShadow({ mode: 'open' });
     }
 

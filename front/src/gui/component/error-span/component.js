@@ -1,19 +1,19 @@
 import template from './template.js'
 
-class ErrorSpan extends HTMLElement {
+class ErrorSpan extends React.Component {
 
-    constructor() {
+    constructor(props) {
         console.log('constructor error-span...');
-        super();
+        super(props);
         this.attachShadow({ mode: 'open' });
     }
 
-    connectedCallback() {
+    componentDidMount() {
         console.log('connectedCallback error-span...');
         this._render();
     }
 
-    disconnectedCallback() {
+    componentWillUnmount() {
         console.log('disconnectedCallback error-span...');
     }
 
